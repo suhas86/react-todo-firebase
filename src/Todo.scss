@@ -1,0 +1,9 @@
+.Todo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  p {
+    padding: 8px;
+    flex-grow: 1;
+  }
+}
