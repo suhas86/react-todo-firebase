@@ -1,29 +1,30 @@
-import React, {useState, useEffect} from "react";
+import React, { useContext, useEffect } from "react";
 import Todo from "./Todo";
 import Divider from "@material-ui/core/Divider";
-import {todosRef} from "./firebase";
+import { TodoContext } from "./contexts/TodoContext";
+import { todosRef } from "./firebase";
 function TodoList() {
-  const [todos,setTodos]  = useState<any>([]);
+  const { todo, dispatch } = useContext(TodoContext);
   useEffect(() => {
-    todosRef.on('value', (snapshot) => {
+    todosRef.once("value", (snapshot: any) => {
       let items = snapshot.val();
-      let newState = [];
+      let todos = [];
       for (let item in items) {
-        newState.push({
+        todos.push({
           id: item,
           task: items[item].task,
-          done: items[item].done
+          done: items[item].done,
         });
       }
-      setTodos(newState)
+      dispatch({ type: "LIST", todos: todos });
     });
-  },[])
+  }, []);
   return (
     <>
-      {todos.map((todo: any, i: number) => (
+      {todo.map((todo: any, i: number) => (
         <React.Fragment key={todo.id}>
-          <Todo  todo={todo} />
-          {i<todos.length -1 && <Divider />}
+          <Todo todo={todo} />
+          {i < todo.length - 1 && <Divider />}
         </React.Fragment>
       ))}
     </>

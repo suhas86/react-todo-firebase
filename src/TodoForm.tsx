@@ -1,15 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import TextField from "@material-ui/core/TextField";
-import {todosRef} from "./firebase";
+import { todosRef } from "./firebase";
+import { TodoContext } from "./contexts/TodoContext";
 function TodoForm() {
   const [value, setValue] = useState("");
+  const { dispatch } = useContext(TodoContext);
   const createTodo = (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
     const item = {
       task: value,
       done: false,
     };
-    todosRef.push(item);
+   todosRef.push(item).then((snap) => {
+      const key = snap.key 
+      dispatch({ type: "ADD", todo: {...item,id:key} });
+   });
     setValue("");
   };
   return (

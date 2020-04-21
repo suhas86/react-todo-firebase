@@ -5,6 +5,7 @@ import Container from "@material-ui/core/Container";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import "./App.scss";
+import { TodoProvider } from "./contexts/TodoContext";
 function App() {
   return (
     <div className="App">
@@ -12,8 +13,10 @@ function App() {
         <Card>
           <CardContent>
             <h3>Simple TODO App</h3>
-            <TodoForm />
-            <TodoList />
+            <TodoProvider>
+              <TodoForm />
+              <TodoList />
+            </TodoProvider>
           </CardContent>
         </Card>
       </Container>
